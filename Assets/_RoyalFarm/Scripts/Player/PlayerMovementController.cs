@@ -53,14 +53,14 @@ namespace _RoyalFarm.Scripts.Player
         private void Move()
         {
             var inputValue = _inputValue.normalized;
-            Vector3 moveVector = inputValue * (_data.Speed * Time.fixedDeltaTime);
+            var moveVector = inputValue * (_data.Speed * Time.fixedDeltaTime);
 
-            moveVector.z = moveVector.y;
-            moveVector.y = 0;
+            // moveVector.z = moveVector.y;
+            // moveVector.y = 0;
 
             _characterController.Move(moveVector);
         }
-
+        
         private void OnDestroy()
         {
             UnSubscribeEvents();

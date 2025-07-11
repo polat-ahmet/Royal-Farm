@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player.Data
 {
@@ -12,5 +13,6 @@ namespace _RoyalFarm.Scripts.Player.Data
     public struct PlayerMovementData
     {
         public float Speed;
+        public Vector3 MoveVector; 
     }
 }

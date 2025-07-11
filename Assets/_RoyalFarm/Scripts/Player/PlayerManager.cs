@@ -10,6 +10,7 @@ namespace _RoyalFarm.Scripts.Player
     public class PlayerManager : MonoBehaviour
     {
         [SerializeField] private PlayerMovementController movementController;
+        [SerializeField] private PlayerAnimationController animationController;
         
         [ShowInInspector] private PlayerData _data;
         private const string PlayerDataPath = "Data/PlayerSO";
@@ -34,14 +35,17 @@ namespace _RoyalFarm.Scripts.Player
 
         private void SubscribeEvents()
         {
+            //TODO canMove parameter shouldn't managed by input taken or released.
             InputEvents.Instance.onInputTaken += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(true);
             InputEvents.Instance.onInputReleased += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(false);
             InputEvents.Instance.onInputDragged += OnInputDragged;
         }
 
+        //TODO change InputParams to PlayerData->MoveVector
         private void OnInputDragged(InputParams inputParams)
         {
             movementController.UpdateInputValue(inputParams);
+            animationController.ManagerAnimationRegardingInputParam(inputParams);
         }
         
         private void OnDestroy()

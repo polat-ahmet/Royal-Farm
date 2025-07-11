@@ -46,6 +46,9 @@ namespace _RoyalFarm.Scripts.InputSystem
             Vector3 targetPos = _clickedPos + _moveVector;
             joystickKnob.position = targetPos;
             
+            _moveVector.z = _moveVector.y;
+            _moveVector.y = 0;
+            
             InputEvents.Instance.onInputDragged?.Invoke(new InputParams()
             {
                 MoveVector = _moveVector,
