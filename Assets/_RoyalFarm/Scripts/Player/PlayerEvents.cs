@@ -9,5 +9,9 @@ namespace _RoyalFarm.Scripts.Player
     {
         public UnityAction<PlayerAnimationStates> onChangePlayerAnimationState = delegate { };
         public UnityAction<bool> onMoveConditionChanged = delegate { };
+        
+        public UnityAction onCropFieldEntered = delegate { };
+        public UnityAction onCropFieldExited = delegate { };
+        
     }
 }

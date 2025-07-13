@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player
 {
-    public class PlayerManager : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAnimationController animationController;
-        
+
         [ShowInInspector] private PlayerData _data;
         private const string PlayerDataPath = "Data/PlayerSO";
 
@@ -22,12 +22,12 @@ namespace _RoyalFarm.Scripts.Player
         }
 
         private PlayerData GetPlayerData() => Resources.Load<PlayerSO>(PlayerDataPath).Data;
-        
+
         private void SendPlayerDataToControllers()
         {
             movementController.SetMovementData(_data.MovementData);
         }
-        
+
         private void Start()
         {
             SubscribeEvents();
@@ -39,14 +39,29 @@ namespace _RoyalFarm.Scripts.Player
             InputEvents.Instance.onInputTaken += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(true);
             InputEvents.Instance.onInputReleased += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(false);
             InputEvents.Instance.onInputDragged += OnInputDragged;
-        }
 
+            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
+            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
+        }
+        
         //TODO change InputParams to PlayerData->MoveVector
         private void OnInputDragged(InputParams inputParams)
         {
             movementController.UpdateInputValue(inputParams);
             animationController.ManagerAnimationRegardingInputParam(inputParams);
         }
+
+        //TODO move to state
+        private void OnCropFieldEntered()
+        {
+            animationController.PlaySowAnimation();
+        }
+
+        private void OnCropFieldExited()
+        {
+            animationController.StopSowAnimation();
+        }
+
         
         private void OnDestroy()
         {
@@ -58,6 +73,9 @@ namespace _RoyalFarm.Scripts.Player
             InputEvents.Instance.onInputTaken -= () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(true);
             InputEvents.Instance.onInputReleased -= () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(false);
             InputEvents.Instance.onInputDragged -= OnInputDragged;
+
+            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
+            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
         }
     }
 }

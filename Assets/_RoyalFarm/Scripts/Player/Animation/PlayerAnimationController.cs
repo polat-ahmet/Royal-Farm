@@ -55,6 +55,16 @@ namespace _RoyalFarm.Scripts.Player
         {
             animator.Play(PlayerAnimationStates.Idle.ToString());
         }
+        
+        internal void PlaySowAnimation()
+        {
+            animator.SetLayerWeight(1, 1);
+        }
+
+        internal void StopSowAnimation()
+        {
+            animator.SetLayerWeight(1, 0);
+        }
 
         private void OnDestroy()
         {
