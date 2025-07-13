@@ -1601,6 +1601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 819024092}
   - component: {fileID: 819024091}
+  - component: {fileID: 819024093}
   m_Layer: 0
   m_Name: Crop Field
   m_TagString: CropField
@@ -1645,6 +1646,18 @@ Transform:
   - {fileID: 1776756351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &819024093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819024090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62340fe5d57349abbfad60c8a2b49bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &833491982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2575268171128600268, guid: 90ab84547440b47c89342197f44a6593, type: 3}

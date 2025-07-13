@@ -1,3 +1,4 @@
+using _RoyalFarm.Scripts.Crop;
 using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player
@@ -6,11 +7,12 @@ namespace _RoyalFarm.Scripts.Player
     {
         private void OnTriggerEnter(Collider other)
         {
+            //TODO try get component abstract interface
             if (other.CompareTag("CropField"))
             {
-                // currentCropField = other.gameObject.GetComponent<CropField>();
+                var cropField = other.gameObject.GetComponent<CropField>();
                 // EnteredCropField(currentCropField);
-                PlayerEvents.Instance.onCropFieldEntered?.Invoke();
+                PlayerEvents.Instance.onCropFieldEntered?.Invoke(cropField);
             }
         }
 
@@ -26,9 +28,10 @@ namespace _RoyalFarm.Scripts.Player
         {
             if (other.CompareTag("CropField"))
             {
+                var cropField = other.gameObject.GetComponent<CropField>();
                 // playerAnimator.StopSowAnimation();
                 // currentCropField = null;
-                PlayerEvents.Instance.onCropFieldExited?.Invoke();
+                PlayerEvents.Instance.onCropFieldExited?.Invoke(cropField);
             }
         }
 

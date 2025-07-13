@@ -1,7 +1,9 @@
 using System;
+using _RoyalFarm.Scripts.Crop;
 using _RoyalFarm.Scripts.InputSystem;
 using _RoyalFarm.Scripts.InputSystem.Data;
 using _RoyalFarm.Scripts.Player.Data;
+using _RoyalFarm.Scripts.Player.States;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,11 +16,15 @@ namespace _RoyalFarm.Scripts.Player
 
         [ShowInInspector] private PlayerData _data;
         private const string PlayerDataPath = "Data/PlayerSO";
+        
+        private PlayerStateMachine _stateMachine;
 
         private void Awake()
         {
             _data = GetPlayerData();
             SendPlayerDataToControllers();
+            
+            _stateMachine = new PlayerStateMachine();
         }
 
         private PlayerData GetPlayerData() => Resources.Load<PlayerSO>(PlayerDataPath).Data;
@@ -31,6 +37,8 @@ namespace _RoyalFarm.Scripts.Player
         private void Start()
         {
             SubscribeEvents();
+            
+            _stateMachine.Initialize();
         }
 
         private void SubscribeEvents()
@@ -39,9 +47,6 @@ namespace _RoyalFarm.Scripts.Player
             InputEvents.Instance.onInputTaken += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(true);
             InputEvents.Instance.onInputReleased += () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(false);
             InputEvents.Instance.onInputDragged += OnInputDragged;
-
-            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
-            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
         }
         
         //TODO change InputParams to PlayerData->MoveVector
@@ -50,22 +55,11 @@ namespace _RoyalFarm.Scripts.Player
             movementController.UpdateInputValue(inputParams);
             animationController.ManagerAnimationRegardingInputParam(inputParams);
         }
-
-        //TODO move to state
-        private void OnCropFieldEntered()
-        {
-            animationController.PlaySowAnimation();
-        }
-
-        private void OnCropFieldExited()
-        {
-            animationController.StopSowAnimation();
-        }
-
         
         private void OnDestroy()
         {
             UnSubscribeEvents();
+            _stateMachine.Dispose();
         }
 
         private void UnSubscribeEvents()
@@ -73,9 +67,6 @@ namespace _RoyalFarm.Scripts.Player
             InputEvents.Instance.onInputTaken -= () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(true);
             InputEvents.Instance.onInputReleased -= () => PlayerEvents.Instance.onMoveConditionChanged?.Invoke(false);
             InputEvents.Instance.onInputDragged -= OnInputDragged;
-
-            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
-            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
         }
     }
 }

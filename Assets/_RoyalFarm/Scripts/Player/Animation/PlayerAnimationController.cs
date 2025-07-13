@@ -1,5 +1,5 @@
 using _RoyalFarm.Scripts.InputSystem.Data;
-using _RoyalFarm.Scripts.Player.Enums;
+using _RoyalFarm.Scripts.Player.Animation;
 using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player
@@ -18,8 +18,21 @@ namespace _RoyalFarm.Scripts.Player
         {
             PlayerEvents.Instance.onMoveConditionChanged += OnMoveConditionChanged;
             PlayerEvents.Instance.onChangePlayerAnimationState += OnChangeAnimationState;
+
+            PlayerEvents.Instance.onEnablePlayerAnimationLayer += OnEnableAnimationLayer;
+            PlayerEvents.Instance.onDisablePlayerAnimationLayer += OnDisableAnimationLayer;
         }
 
+        private void OnEnableAnimationLayer(PlayerAnimationLayers layer)
+        {
+            animator.SetLayerWeight((int)layer, 1);
+        }
+        
+        private void OnDisableAnimationLayer(PlayerAnimationLayers layer)
+        {
+            animator.SetLayerWeight((int)layer, 0);
+        }
+        
         private void OnMoveConditionChanged(bool state)
         {
             if (state == false)
@@ -54,16 +67,6 @@ namespace _RoyalFarm.Scripts.Player
         private void PlayIdleAnimation()
         {
             animator.Play(PlayerAnimationStates.Idle.ToString());
-        }
-        
-        internal void PlaySowAnimation()
-        {
-            animator.SetLayerWeight(1, 1);
-        }
-
-        internal void StopSowAnimation()
-        {
-            animator.SetLayerWeight(1, 0);
         }
 
         private void OnDestroy()

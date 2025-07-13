@@ -1,4 +1,4 @@
-namespace _RoyalFarm.Scripts.Player.Enums
+namespace _RoyalFarm.Scripts.Player.Animation
 {
     public enum PlayerAnimationStates
     {
