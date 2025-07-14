@@ -2,6 +2,7 @@ using _RoyalFarm.Scripts.Crop;
 using _RoyalFarm.Scripts.Particles;
 using _RoyalFarm.Scripts.Player.Animation;
 using _RoyalFarm.Scripts.Player.Commands;
+using _RoyalFarm.Scripts.Player.Commands.Data;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace _RoyalFarm.Scripts.Player.States
     public class PlayerSeedingState : PlayerState
     {
         [CanBeNull] private SeedParticles _seedParticles;
+        private SeedingActionData _seedingActionData;
         
         public PlayerSeedingState(PlayerStateMachine stateMachine) : base(stateMachine)
         {
@@ -24,13 +26,23 @@ namespace _RoyalFarm.Scripts.Player.States
             
             if (go != null)
                 _seedParticles = go.GetComponent<SeedParticles>();
+            
+            _seedingActionData = Resources.Load<SeedingActionSO>("Data/SeedingActionSO").Data;
         }
 
         private void OnSeedingAnimatiomEventTriggered()
         {
             if (_seedParticles != null) _seedParticles.Play();
 
-            var seedAction = new SeedGameplayAction();
+            var seedAction = new SeedAction(
+                origin: _seedParticles.transform.position,
+                direction: _seedParticles.transform.forward,
+                angle: _seedingActionData.Angle,
+                radius: _seedingActionData.Radius,
+                seedableMask: _seedingActionData.SeedableMask,
+                visualize: true
+                );
+            
             seedAction.Execute();
         }
 

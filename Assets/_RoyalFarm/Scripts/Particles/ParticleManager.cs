@@ -29,7 +29,20 @@ namespace _RoyalFarm.Scripts.Particles
         private void SubscribeEvents()
         {
             ParticleEvents.Instance.onCreateParticleGameObject += CreateParticleGameObjectCallback;
+            // ParticleEvents.Instance.onGetParticleParent += GetParticleParentCallback;
         }
+
+        // private Transform GetParticleParentCallback(ParticleType type)
+        // {
+        //     switch (type)
+        //     {
+        //         case ParticleType.Seeding:
+        //             return seedParticleHolder;
+        //             break;
+        //         default:
+        //             throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        //     }
+        // }
 
         private GameObject CreateParticleGameObjectCallback(ParticleType type)
         {
