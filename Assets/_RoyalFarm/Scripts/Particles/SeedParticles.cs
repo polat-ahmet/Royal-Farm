@@ -5,18 +5,24 @@ namespace _RoyalFarm.Scripts.Particles
 {
     public class SeedParticles : MonoBehaviour
     {
-        private ParticleSystem particleSystem;
+        private ParticleSystem _particleSystem;
 
         private void Awake()
         {
-            particleSystem = GetComponent<ParticleSystem>();
+            _particleSystem = GetComponent<ParticleSystem>();
+        }
+
+        public void Play()
+        {
+            //TODO object pooling emit
+            _particleSystem.Play();
         }
 
         private void OnParticleCollision(GameObject other)
         {
             List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         
-            int collisionAmount = particleSystem.GetCollisionEvents(other, collisionEvents);
+            int collisionAmount = _particleSystem.GetCollisionEvents(other, collisionEvents);
         
             Vector3[] collisionPositions = new Vector3[collisionAmount];
 
@@ -25,7 +31,8 @@ namespace _RoyalFarm.Scripts.Particles
                 collisionPositions[i] = collisionEvents[i].intersection;
             }
         
-            ParticleEvents.Instance.onSeedsCollided?.Invoke(collisionPositions);
+            Debug.Log("Particle Collision");
+            ParticleEvents.Instance.onSeedsCollidedPositions?.Invoke(collisionPositions);
         }
     }
 }

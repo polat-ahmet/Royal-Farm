@@ -7,14 +7,13 @@ namespace _RoyalFarm.Scripts.Player.States
     {
         public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine)
         {
-            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
         }
 
-        private void OnCropFieldEntered(CropField arg0)
+        internal override void OnCropFieldEntered(CropField arg0)
         {
             _stateMachine.ChangeState(PlayerStateTypes.Seeding);
         }
-
+        
         public override void Enter()
         {
             Debug.Log("Entered IdleState");
@@ -23,11 +22,6 @@ namespace _RoyalFarm.Scripts.Player.States
         public override void Exit()
         {
             Debug.Log("Exited IdleState");
-        }
-
-        public override void Dispose()
-        {
-            PlayerEvents.Instance.onCropFieldEntered -= OnCropFieldEntered;
         }
     }
 }

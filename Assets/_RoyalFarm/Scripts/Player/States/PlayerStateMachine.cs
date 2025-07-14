@@ -1,4 +1,5 @@
 using System;
+using _RoyalFarm.Scripts.Crop;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
@@ -8,6 +9,7 @@ namespace _RoyalFarm.Scripts.Player.States
         
         public PlayerState State { get => _state;}
         
+        //TODO change to states dict, create in runtime
         private PlayerIdleState _idleState;
         private PlayerSeedingState _seedingState;
         
@@ -17,6 +19,22 @@ namespace _RoyalFarm.Scripts.Player.States
             _seedingState = new PlayerSeedingState(this);
             
             _state = _idleState;
+            
+            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
+            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
+            
+            _idleState.Initialize();
+            _seedingState.Initialize();
+        }
+        
+        private void OnCropFieldEntered(CropField cropField)
+        {
+            _state.OnCropFieldEntered(cropField);
+        }
+        
+        private void OnCropFieldExited(CropField cropField)
+        {
+            _state.OnCropFieldExited(cropField);
         }
 
         internal void ChangeState(PlayerStateTypes newState)
@@ -41,6 +59,9 @@ namespace _RoyalFarm.Scripts.Player.States
 
         internal void Dispose()
         {
+            PlayerEvents.Instance.onCropFieldEntered -= OnCropFieldEntered;
+            PlayerEvents.Instance.onCropFieldExited -= OnCropFieldExited;
+            
             _idleState.Dispose();
             _seedingState.Dispose();
         }

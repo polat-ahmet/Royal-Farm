@@ -13,6 +13,8 @@ namespace _RoyalFarm.Scripts.Player
         public UnityAction<PlayerAnimationLayers> onEnablePlayerAnimationLayer = delegate { };
         public UnityAction<PlayerAnimationLayers> onDisablePlayerAnimationLayer = delegate { };
         
+        public UnityAction onSeedingAnimationEventTriggered = delegate { };
+        
         public UnityAction<PlayerStateTypes> onChangePlayerState = delegate { };
         
         public UnityAction<bool> onMoveConditionChanged = delegate { };

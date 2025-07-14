@@ -1,17 +1,40 @@
 using _RoyalFarm.Scripts.Crop;
+using _RoyalFarm.Scripts.Particles;
 using _RoyalFarm.Scripts.Player.Animation;
+using _RoyalFarm.Scripts.Player.Commands;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
     public class PlayerSeedingState : PlayerState
     {
+        [CanBeNull] private SeedParticles _seedParticles;
+        
         public PlayerSeedingState(PlayerStateMachine stateMachine) : base(stateMachine)
         {
-            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
+            _seedParticles = null;
         }
 
-        private void OnCropFieldExited(CropField arg0)
+        internal override void Initialize()
+        {
+            PlayerEvents.Instance.onSeedingAnimationEventTriggered += OnSeedingAnimatiomEventTriggered;
+
+            var go = ParticleEvents.Instance.onCreateParticleGameObject?.Invoke(ParticleType.Seeding);
+            
+            if (go != null)
+                _seedParticles = go.GetComponent<SeedParticles>();
+        }
+
+        private void OnSeedingAnimatiomEventTriggered()
+        {
+            if (_seedParticles != null) _seedParticles.Play();
+
+            var seedAction = new SeedGameplayAction();
+            seedAction.Execute();
+        }
+
+        internal override void OnCropFieldExited(CropField arg0)
         {
             _stateMachine.ChangeState(PlayerStateTypes.Idle);
         }
@@ -28,9 +51,10 @@ namespace _RoyalFarm.Scripts.Player.States
             PlayerEvents.Instance.onDisablePlayerAnimationLayer?.Invoke(PlayerAnimationLayers.Seed);
         }
 
-        public override void Dispose()
+        internal override void Dispose()
         {
-            PlayerEvents.Instance.onCropFieldExited -= OnCropFieldExited;
+            PlayerEvents.Instance.onSeedingAnimationEventTriggered -= OnSeedingAnimatiomEventTriggered;
+            base.Dispose();
         }
     }
 }
