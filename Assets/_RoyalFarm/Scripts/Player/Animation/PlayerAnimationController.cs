@@ -9,7 +9,7 @@ namespace _RoyalFarm.Scripts.Player
         [SerializeField] private Animator animator;
         
         
-        private void Start()
+        private void OnEnable()
         {
             SubscribeEvents();
         }
@@ -69,14 +69,18 @@ namespace _RoyalFarm.Scripts.Player
             animator.Play(PlayerAnimationStates.Idle.ToString());
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             UnSubscribeEvents();
         }
         
         private void UnSubscribeEvents()
         {
+            PlayerEvents.Instance.onMoveConditionChanged -= OnMoveConditionChanged;
             PlayerEvents.Instance.onChangePlayerAnimationState -= OnChangeAnimationState;
+
+            PlayerEvents.Instance.onEnablePlayerAnimationLayer -= OnEnableAnimationLayer;
+            PlayerEvents.Instance.onDisablePlayerAnimationLayer -= OnDisableAnimationLayer;
         }
     }
 }

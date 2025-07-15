@@ -1,4 +1,4 @@
-namespace _RoyalFarm.Scripts.Player.Commands
+namespace _RoyalFarm.Scripts.Commands
 {
     public interface IGameplayAction
     {

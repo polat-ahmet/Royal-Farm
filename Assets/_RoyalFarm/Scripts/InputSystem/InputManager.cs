@@ -1,3 +1,4 @@
+using System;
 using _RoyalFarm.Scripts.InputSystem.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -23,10 +24,14 @@ namespace _RoyalFarm.Scripts.InputSystem
         
         // private InputData GetInputData() => Resources.Load<InputSO>("Data/Input").Data;
 
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
         private void Start()
         {
             _isAvailableForTouch = true;
-            SubscribeEvents();
         }
 
         private void SubscribeEvents()
@@ -65,7 +70,7 @@ namespace _RoyalFarm.Scripts.InputSystem
             }
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             UnSubscribeEvents();
         }

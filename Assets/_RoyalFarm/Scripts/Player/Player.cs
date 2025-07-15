@@ -24,7 +24,7 @@ namespace _RoyalFarm.Scripts.Player
             _data = GetPlayerData();
             SendPlayerDataToControllers();
             
-            _stateMachine = new PlayerStateMachine();
+            
         }
 
         private PlayerData GetPlayerData() => Resources.Load<PlayerSO>(PlayerDataPath).Data;
@@ -34,11 +34,9 @@ namespace _RoyalFarm.Scripts.Player
             movementController.SetMovementData(_data.MovementData);
         }
 
-        private void Start()
+        private void OnEnable()
         {
             SubscribeEvents();
-            
-            _stateMachine.Initialize();
         }
 
         private void SubscribeEvents()
@@ -49,6 +47,12 @@ namespace _RoyalFarm.Scripts.Player
             InputEvents.Instance.onInputDragged += OnInputDragged;
         }
         
+        private void Start()
+        {
+            _stateMachine = new PlayerStateMachine();
+            _stateMachine.Initialize();
+        }
+        
         //TODO change InputParams to PlayerData->MoveVector
         private void OnInputDragged(InputParams inputParams)
         {
@@ -56,7 +60,7 @@ namespace _RoyalFarm.Scripts.Player
             animationController.ManagerAnimationRegardingInputParam(inputParams);
         }
         
-        private void OnDestroy()
+        private void OnDisable()
         {
             UnSubscribeEvents();
             _stateMachine.Dispose();

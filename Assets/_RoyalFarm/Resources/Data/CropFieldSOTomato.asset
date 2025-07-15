@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7b6e8fa89bd4073b8cf9c30116c9124, type: 3}
-  m_Name: SeedingActionSO
+  m_Script: {fileID: 11500000, guid: 03c142b69f0342b9a87e2a9271ef9d96, type: 3}
+  m_Name: CropFieldSOTomato
   m_EditorClassIdentifier: 
   Data:
-    Angle: 90
-    Radius: 3
-    SeedableMask:
-      serializedVersion: 2
-      m_Bits: 128
+    Width: 5
+    Length: 5
+    Type: 0

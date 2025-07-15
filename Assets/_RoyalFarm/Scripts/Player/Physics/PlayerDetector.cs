@@ -11,36 +11,17 @@ namespace _RoyalFarm.Scripts.Player
             if (other.CompareTag("CropField"))
             {
                 var cropField = other.gameObject.GetComponent<CropField>();
-                // EnteredCropField(currentCropField);
                 PlayerEvents.Instance.onCropFieldEntered?.Invoke(cropField);
             }
         }
-
-        // private void OnTriggerStay(Collider other)
-        // {
-        //     if (other.CompareTag("CropField"))
-        //     {
-        //         EnteredCropField(other.GetComponent<CropField>());
-        //     }
-        // }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("CropField"))
             {
                 var cropField = other.gameObject.GetComponent<CropField>();
-                // playerAnimator.StopSowAnimation();
-                // currentCropField = null;
                 PlayerEvents.Instance.onCropFieldExited?.Invoke(cropField);
             }
         }
-
-        // private void EnteredCropField(CropField cropField)
-        // {
-        //     if (playerToolSelector.CanSow())
-        //     {
-        //         playerAnimator.PlaySowAnimation();
-        //     }
-        // }
     }
 }

@@ -20,11 +20,11 @@ namespace _RoyalFarm.Scripts.Player.States
             
             _state = _idleState;
             
-            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
-            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
-            
             _idleState.Initialize();
             _seedingState.Initialize();
+            
+            PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
+            PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
         }
         
         private void OnCropFieldEntered(CropField cropField)
@@ -59,11 +59,11 @@ namespace _RoyalFarm.Scripts.Player.States
 
         internal void Dispose()
         {
-            PlayerEvents.Instance.onCropFieldEntered -= OnCropFieldEntered;
-            PlayerEvents.Instance.onCropFieldExited -= OnCropFieldExited;
-            
             _idleState.Dispose();
             _seedingState.Dispose();
+            
+            PlayerEvents.Instance.onCropFieldEntered -= OnCropFieldEntered;
+            PlayerEvents.Instance.onCropFieldExited -= OnCropFieldExited;
         }
     }
 }

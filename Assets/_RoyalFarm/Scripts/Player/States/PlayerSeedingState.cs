@@ -12,7 +12,7 @@ namespace _RoyalFarm.Scripts.Player.States
     {
         [CanBeNull] private SeedParticles _seedParticles;
         private SeedingActionData _seedingActionData;
-        
+
         public PlayerSeedingState(PlayerStateMachine stateMachine) : base(stateMachine)
         {
             _seedParticles = null;
@@ -23,16 +23,21 @@ namespace _RoyalFarm.Scripts.Player.States
             PlayerEvents.Instance.onSeedingAnimationEventTriggered += OnSeedingAnimatiomEventTriggered;
 
             var go = ParticleEvents.Instance.onCreateParticleGameObject?.Invoke(ParticleType.Seeding);
-            
+
             if (go != null)
+            {
                 _seedParticles = go.GetComponent<SeedParticles>();
-            
+            }
+
             _seedingActionData = Resources.Load<SeedingActionSO>("Data/SeedingActionSO").Data;
         }
 
         private void OnSeedingAnimatiomEventTriggered()
         {
-            if (_seedParticles != null) _seedParticles.Play();
+            if (_seedParticles != null)
+            {
+                _seedParticles.Play();
+            }
 
             var seedAction = new SeedAction(
                 origin: _seedParticles.transform.position,
@@ -41,8 +46,8 @@ namespace _RoyalFarm.Scripts.Player.States
                 radius: _seedingActionData.Radius,
                 seedableMask: _seedingActionData.SeedableMask,
                 visualize: true
-                );
-            
+            );
+
             seedAction.Execute();
         }
 

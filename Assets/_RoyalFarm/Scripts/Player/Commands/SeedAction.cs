@@ -1,3 +1,4 @@
+using _RoyalFarm.Scripts.Commands;
 using _RoyalFarm.Scripts.Crop;
 using UnityEngine;
 
@@ -26,24 +27,18 @@ namespace _RoyalFarm.Scripts.Player.Commands
         {
             Collider[] hits = Physics.OverlapSphere(_origin, _radius, _seedableMask);
             
-            Debug.Log("Hits: " + hits.Length);
-            
             foreach (var hit in hits)
             {
                 Vector3 toTarget = hit.transform.position - _origin;
                 float distance = toTarget.magnitude;
                 
                 float angleToTarget = Vector3.Angle(_direction, toTarget);
-
-                Debug.Log("Calculate distance");
                 
                 if (distance <= _radius && angleToTarget <= _angle / 2f)
                 {
-                    Debug.Log("Distance Approved");
                     var seedable = hit.GetComponent<ISeedable>();
                     if (seedable != null)
                     {
-                        Debug.Log("Seedable");
                         seedable.Seed();
                     }
 

@@ -26,7 +26,7 @@ namespace _RoyalFarm.Scripts.Player
             _data = movementData;
         }
 
-        private void Start()
+        private void OnEnable()
         {
             SubscribeEvents();
         }
@@ -61,7 +61,7 @@ namespace _RoyalFarm.Scripts.Player
             _characterController.Move(moveVector);
         }
         
-        private void OnDestroy()
+        private void OnDisable()
         {
             UnSubscribeEvents();
         }
