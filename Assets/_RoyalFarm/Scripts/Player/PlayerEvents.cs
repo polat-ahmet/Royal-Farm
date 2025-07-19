@@ -9,13 +9,13 @@ namespace _RoyalFarm.Scripts.Player
 {
     public class PlayerEvents : MonoSingleton<PlayerEvents>
     {
-        public UnityAction<PlayerAnimationStates> onChangePlayerAnimationState = delegate { };
-        public UnityAction<PlayerAnimationLayers> onEnablePlayerAnimationLayer = delegate { };
-        public UnityAction<PlayerAnimationLayers> onDisablePlayerAnimationLayer = delegate { };
+        public UnityAction<PlayerAnimationStateType> onChangePlayerAnimationState = delegate { };
+        public UnityAction<PlayerAnimationLayerType> onEnablePlayerAnimationLayer = delegate { };
+        public UnityAction<PlayerAnimationLayerType> onDisablePlayerAnimationLayer = delegate { };
         
         public UnityAction onSeedingAnimationEventTriggered = delegate { };
         
-        public UnityAction<PlayerStateTypes> onChangePlayerState = delegate { };
+        public UnityAction<PlayerStateType> onChangePlayerState = delegate { };
         
         public UnityAction<bool> onMoveConditionChanged = delegate { };
         

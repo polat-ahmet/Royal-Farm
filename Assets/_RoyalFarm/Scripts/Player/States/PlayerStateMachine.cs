@@ -1,17 +1,19 @@
 using System;
 using _RoyalFarm.Scripts.Crop;
+using _RoyalFarm.Scripts.Farming;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
     public class PlayerStateMachine
     {
-        private PlayerState _state;
-        
-        public PlayerState State { get => _state;}
+        private BasePlayerState _state;
+        public BasePlayerState State { get => _state;}
         
         //TODO change to states dict, create in runtime
         private PlayerIdleState _idleState;
         private PlayerSeedingState _seedingState;
+        
+        private CropField _currentCropField;
         
         internal void Initialize()
         {
@@ -25,28 +27,41 @@ namespace _RoyalFarm.Scripts.Player.States
             
             PlayerEvents.Instance.onCropFieldExited += OnCropFieldExited;
             PlayerEvents.Instance.onCropFieldEntered += OnCropFieldEntered;
+            
+            FarmingEvents.Instance.onCropFieldStateChanged += OnCropFieldStateChanged;
         }
-        
+
+        private void OnCropFieldStateChanged(CropField cropField, CropFieldStateType cropFieldState)
+        {
+            _state.OnCropFieldStateChanged(cropField, cropFieldState);
+        }
+
         private void OnCropFieldEntered(CropField cropField)
         {
+            if (_currentCropField != null || _currentCropField == cropField) return;
+            
+            _currentCropField = cropField;
             _state.OnCropFieldEntered(cropField);
         }
         
         private void OnCropFieldExited(CropField cropField)
         {
+            if (_currentCropField == null || _currentCropField != cropField) return;
+            
+            _currentCropField = null;
             _state.OnCropFieldExited(cropField);
         }
 
-        internal void ChangeState(PlayerStateTypes newState)
+        internal void TransitionToState(PlayerStateType newState)
         {
             _state.Exit();
 
             switch (newState)
             {
-                case PlayerStateTypes.Idle:
+                case PlayerStateType.Idle:
                     _state = _idleState;
                     break;
-                case PlayerStateTypes.Seeding:
+                case PlayerStateType.Seeding:
                     _state = _seedingState;
                     break;
                 default:

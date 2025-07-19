@@ -1,4 +1,5 @@
 using _RoyalFarm.Scripts.Crop;
+using _RoyalFarm.Scripts.Farming;
 using _RoyalFarm.Scripts.Particles;
 using _RoyalFarm.Scripts.Player.Animation;
 using _RoyalFarm.Scripts.Player.Commands;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
-    public class PlayerSeedingState : PlayerState
+    public class PlayerSeedingState : BasePlayerState
     {
         [CanBeNull] private SeedParticles _seedParticles;
         private SeedingActionData _seedingActionData;
@@ -21,7 +22,7 @@ namespace _RoyalFarm.Scripts.Player.States
         internal override void Initialize()
         {
             PlayerEvents.Instance.onSeedingAnimationEventTriggered += OnSeedingAnimatiomEventTriggered;
-
+            
             var go = ParticleEvents.Instance.onCreateParticleGameObject?.Invoke(ParticleType.Seeding);
 
             if (go != null)
@@ -32,6 +33,12 @@ namespace _RoyalFarm.Scripts.Player.States
             _seedingActionData = Resources.Load<SeedingActionSO>("Data/SeedingActionSO").Data;
         }
 
+        public override void Enter()
+        {
+            Debug.Log("Entered Seeding State");
+            PlayerEvents.Instance.onEnablePlayerAnimationLayer?.Invoke(PlayerAnimationLayerType.Seed);
+        }
+        
         private void OnSeedingAnimatiomEventTriggered()
         {
             if (_seedParticles != null)
@@ -40,7 +47,7 @@ namespace _RoyalFarm.Scripts.Player.States
             }
 
             var seedAction = new SeedAction(
-                origin: _seedParticles.transform.position,
+                origin: _seedParticles.transform.position + Vector3.down,
                 direction: _seedParticles.transform.forward,
                 angle: _seedingActionData.Angle,
                 radius: _seedingActionData.Radius,
@@ -51,21 +58,23 @@ namespace _RoyalFarm.Scripts.Player.States
             seedAction.Execute();
         }
 
-        internal override void OnCropFieldExited(CropField arg0)
+        internal override void OnCropFieldExited(CropField cropField)
         {
-            _stateMachine.ChangeState(PlayerStateTypes.Idle);
+            _stateMachine.TransitionToState(PlayerStateType.Idle);
         }
-
-        public override void Enter()
+        
+        internal override void OnCropFieldStateChanged(CropField cropField, CropFieldStateType newCropFieldState)
         {
-            Debug.Log("Entered Seeding State");
-            PlayerEvents.Instance.onEnablePlayerAnimationLayer?.Invoke(PlayerAnimationLayers.Seed);
+            if (newCropFieldState == CropFieldStateType.Seeded)
+            {
+                _stateMachine.TransitionToState(PlayerStateType.Idle);
+            }
         }
 
         public override void Exit()
         {
             Debug.Log("Exited Seeding State");
-            PlayerEvents.Instance.onDisablePlayerAnimationLayer?.Invoke(PlayerAnimationLayers.Seed);
+            PlayerEvents.Instance.onDisablePlayerAnimationLayer?.Invoke(PlayerAnimationLayerType.Seed);
         }
 
         internal override void Dispose()

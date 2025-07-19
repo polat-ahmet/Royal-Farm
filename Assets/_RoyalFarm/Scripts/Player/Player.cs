@@ -23,12 +23,11 @@ namespace _RoyalFarm.Scripts.Player
         {
             _data = GetPlayerData();
             SendPlayerDataToControllers();
-            
-            
         }
 
         private PlayerData GetPlayerData() => Resources.Load<PlayerSO>(PlayerDataPath).Data;
 
+        //Delegate movement controls to states
         private void SendPlayerDataToControllers()
         {
             movementController.SetMovementData(_data.MovementData);

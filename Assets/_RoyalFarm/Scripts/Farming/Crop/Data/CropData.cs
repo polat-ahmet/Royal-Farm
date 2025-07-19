@@ -7,9 +7,12 @@ namespace _RoyalFarm.Scripts.Crop.Data
     [Serializable]
     public struct CropData
     {
+        public string Name;
         public CropType Type;
         public GameObject ModelPrefab;
-        public Sprite cropIcon;
-        public int price;
+        public float GrowingTime;
+        
+        public Sprite CropIcon;
+        public int Price;
     }
 }

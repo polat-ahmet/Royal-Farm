@@ -17,39 +17,54 @@ namespace _RoyalFarm.Scripts.Crop
         // private CropTileData _data;
         private CropData _cropData;
         
-        private CropTileStates _state;
+        private CropTileStateType _stateType;
         
         private void Start()
         {
-            _state = CropTileStates.Empty;
+            _stateType = CropTileStateType.Empty;
             _crop = null;
         }
 
-        internal void Initialize(CropField cropField)
+        internal void Initialize(CropField cropField, CropData cropData)
         {
             _cropField = cropField;
+            _cropData = cropData;
 
             _cropPrefab = Resources.Load<GameObject>("Prefabs/Crop");
-            _cropData = Resources.Load<CropSO>($"Data/CropSO{_cropField.GetType().ToString()}").Data;
+            // _cropData = Resources.Load<CropSO>($"Data/CropSO{_cropField.GetType().ToString()}").Data;
         }
         
         public bool IsEmpty()
         {
-            return _state == CropTileStates.Empty;
+            return _stateType == CropTileStateType.Empty;
         }
         
+        //TODO execute, state durumuna göre
         public void Seed()
         {
             if (!IsEmpty()) return;
             
             Debug.Log("Seed this tile: " + gameObject.name);
-            
-            _state = CropTileStates.Seeded;
+            _stateType = CropTileStateType.Seeded;
 
             //TODO crop pool, factory init etmeli
+            CreateCrop();
+            
+            _cropField.TileSeeded(this);
+        }
+
+        private void CreateCrop()
+        {
             var cropGameObject = Instantiate(_cropPrefab, cropParent);
-            _crop = cropGameObject.GetComponent<Crop>();
-            if (_crop != null) _crop.Initialize(_cropData);
+            
+            if (cropGameObject.TryGetComponent<Crop>(out var crop))
+            {
+                _crop = crop;
+                _crop.Initialize(_cropData);
+            }
+            
+            // _crop = cropGameObject.GetComponent<Crop>();
+            // if (_crop != null) _crop.Initialize(_cropData);
         }
     }
 }

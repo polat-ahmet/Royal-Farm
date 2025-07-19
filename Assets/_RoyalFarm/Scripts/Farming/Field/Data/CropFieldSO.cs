@@ -1,3 +1,4 @@
+using _RoyalFarm.Scripts.Crop.Data;
 using _RoyalFarm.Scripts.Farming;
 using UnityEngine;
 
@@ -7,5 +8,6 @@ namespace _RoyalFarm.Scripts.Crop
     public class CropFieldSO : ScriptableObject
     {
         public CropFieldData Data;
+        public CropSO Crop;
     }
 }

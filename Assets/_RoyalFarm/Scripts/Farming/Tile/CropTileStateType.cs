@@ -1,6 +1,6 @@
 namespace _RoyalFarm.Scripts.Crop
 {
-    public enum CropTileStates
+    public enum CropTileStateType
     {
         Empty,
         Seeded,

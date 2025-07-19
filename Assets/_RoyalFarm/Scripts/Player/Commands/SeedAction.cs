@@ -36,8 +36,7 @@ namespace _RoyalFarm.Scripts.Player.Commands
                 
                 if (distance <= _radius && angleToTarget <= _angle / 2f)
                 {
-                    var seedable = hit.GetComponent<ISeedable>();
-                    if (seedable != null)
+                    if (hit.TryGetComponent<ISeedable>(out var seedable))
                     {
                         seedable.Seed();
                     }

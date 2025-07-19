@@ -2,11 +2,11 @@ using _RoyalFarm.Scripts.Crop;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
-    public abstract class PlayerState
+    public abstract class BasePlayerState
     {
         protected PlayerStateMachine _stateMachine;
 
-        public PlayerState(PlayerStateMachine stateMachine)
+        public BasePlayerState(PlayerStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
         }
@@ -26,6 +26,10 @@ namespace _RoyalFarm.Scripts.Player.States
         {
         }
 
+        internal virtual void OnCropFieldStateChanged(CropField cropField, CropFieldStateType cropFieldState)
+        {
+        }
+        
         internal virtual void Dispose()
         {
         }

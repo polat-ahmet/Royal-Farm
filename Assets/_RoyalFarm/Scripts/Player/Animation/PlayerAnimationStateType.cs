@@ -1,6 +1,6 @@
 namespace _RoyalFarm.Scripts.Player.Animation
 {
-    public enum PlayerAnimationStates
+    public enum PlayerAnimationStateType
     {
         Idle,
         Running,

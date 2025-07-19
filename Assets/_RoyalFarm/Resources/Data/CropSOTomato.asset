@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: CropSOTomato
   m_EditorClassIdentifier: 
   Data:
+    Name: Domatis
     Type: 0
     ModelPrefab: {fileID: 7123941795819459715, guid: d6ef32d10c6c84990a6eeab63662405c, type: 3}
-    cropIcon: {fileID: 0}
-    price: 0
+    GrowingTime: 5
+    CropIcon: {fileID: 0}
+    Price: 0

@@ -15,4 +15,4 @@ MonoBehaviour:
   Data:
     Width: 5
     Length: 5
-    Type: 0
+  Crop: {fileID: 11400000, guid: 7cb21d2ff44f4435395c77e6bb6f4e67, type: 2}

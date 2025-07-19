@@ -11,23 +11,36 @@ namespace _RoyalFarm.Scripts.Crop
     {
         [SerializeField] private CropFieldSO cropFieldSO;
         [SerializeField] private List<CropTile> cropTiles = new List<CropTile>();
-        
-        private CropFieldStates _state;
 
+        public CropFieldStateType State { get; private set; }
+        private HashSet<CropTile> _processedTiles;
+        
         private void Awake()
         {
             
         }
         
-        internal CropType GetType() => cropFieldSO.Data.Type;
+        // internal CropType GetType() => cropFieldSO.Data.Type;
 
         private void Start()
         {
-            _state = CropFieldStates.Empty;
+            State = CropFieldStateType.Empty;
+            
+            _processedTiles = new HashSet<CropTile>();
             
             foreach (CropTile tile in cropTiles)
             {
-                tile.Initialize(this);
+                tile.Initialize(this, cropFieldSO.Crop.Data);
+            }
+        }
+
+        internal void TileSeeded(CropTile tile)
+        {
+            if (_processedTiles.Add(tile) && _processedTiles.Count >= cropTiles.Count)
+            {
+                State = CropFieldStateType.Seeded;
+                Debug.Log("Cropfield seeded");
+                FarmingEvents.Instance.onCropFieldStateChanged?.Invoke(this, State);
             }
         }
     }

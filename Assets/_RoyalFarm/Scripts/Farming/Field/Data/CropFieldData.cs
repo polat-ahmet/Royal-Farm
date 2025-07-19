@@ -8,7 +8,5 @@ namespace _RoyalFarm.Scripts.Crop
     {
         public byte Width;
         public byte Length;
-        
-        public CropType Type;
     }
 }

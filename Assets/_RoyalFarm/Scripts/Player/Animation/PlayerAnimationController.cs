@@ -23,14 +23,14 @@ namespace _RoyalFarm.Scripts.Player
             PlayerEvents.Instance.onDisablePlayerAnimationLayer += OnDisableAnimationLayer;
         }
 
-        private void OnEnableAnimationLayer(PlayerAnimationLayers layer)
+        private void OnEnableAnimationLayer(PlayerAnimationLayerType layerType)
         {
-            animator.SetLayerWeight((int)layer, 1);
+            animator.SetLayerWeight((int)layerType, 1);
         }
         
-        private void OnDisableAnimationLayer(PlayerAnimationLayers layer)
+        private void OnDisableAnimationLayer(PlayerAnimationLayerType layerType)
         {
-            animator.SetLayerWeight((int)layer, 0);
+            animator.SetLayerWeight((int)layerType, 0);
         }
         
         private void OnMoveConditionChanged(bool state)
@@ -41,9 +41,9 @@ namespace _RoyalFarm.Scripts.Player
             }
         }
         
-        private void OnChangeAnimationState(PlayerAnimationStates animationState)
+        private void OnChangeAnimationState(PlayerAnimationStateType animationStateType)
         {
-            animator.Play(animationState.ToString());
+            animator.Play(animationStateType.ToString());
         }
 
         internal void ManagerAnimationRegardingInputParam(InputParams inputParams)
@@ -60,13 +60,13 @@ namespace _RoyalFarm.Scripts.Player
 
         private void PlayRunningAnimation(InputParams inputParams)
         {
-            animator.Play(PlayerAnimationStates.Running.ToString());
+            animator.Play(PlayerAnimationStateType.Running.ToString());
             animator.transform.forward = inputParams.MoveVector.normalized;
         }
 
         private void PlayIdleAnimation()
         {
-            animator.Play(PlayerAnimationStates.Idle.ToString());
+            animator.Play(PlayerAnimationStateType.Idle.ToString());
         }
 
         private void OnDisable()
