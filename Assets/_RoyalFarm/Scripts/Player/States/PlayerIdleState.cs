@@ -26,6 +26,7 @@ namespace _RoyalFarm.Scripts.Player.States
         {
             if (newCropFieldState == CropFieldStateType.Empty)
             {
+                Debug.Log("Crop Field is empty changing state to seeding");
                 _stateMachine.TransitionToState(PlayerStateType.Seeding);
             }
         }

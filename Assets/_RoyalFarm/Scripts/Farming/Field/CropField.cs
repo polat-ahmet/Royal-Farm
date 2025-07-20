@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using _RoyalFarm.Scripts.Farming;
 using _RoyalFarm.Scripts.Particles;
@@ -39,9 +40,25 @@ namespace _RoyalFarm.Scripts.Crop
             if (_processedTiles.Add(tile) && _processedTiles.Count >= cropTiles.Count)
             {
                 State = CropFieldStateType.Seeded;
-                Debug.Log("Cropfield seeded");
+                Debug.Log("Cropfieldf seeded");
+
+                StartCoroutine(StartGrowingCoroutine());
+                
+                
                 FarmingEvents.Instance.onCropFieldStateChanged?.Invoke(this, State);
             }
+        }
+
+        IEnumerator StartGrowingCoroutine()
+        {
+            foreach (CropTile tile in cropTiles)
+            {
+                tile.StartGrowing();
+            }
+            
+            yield return new WaitForSeconds(cropFieldSO.Crop.Data.GrowingTime);
+            
+            Debug.Log("Cropfield growing finished");
         }
     }
 }

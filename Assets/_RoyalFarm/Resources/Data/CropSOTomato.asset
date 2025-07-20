@@ -15,7 +15,13 @@ MonoBehaviour:
   Data:
     Name: Domatis
     Type: 0
-    ModelPrefab: {fileID: 7123941795819459715, guid: d6ef32d10c6c84990a6eeab63662405c, type: 3}
-    GrowingTime: 5
+    Models:
+    - ModelPrefab: {fileID: 8406572459772895359, guid: 42a99aa6db68f4b9faf2b5f6f7ee5141, type: 3}
+      StartProgressPercentage: 0
+    - ModelPrefab: {fileID: 6371985601650640125, guid: 0815fa9c526f94f2ab61f66ac68dbe09, type: 3}
+      StartProgressPercentage: 0.5
+    - ModelPrefab: {fileID: 8892288106619184850, guid: 29a8eb415b44440589fc000183433726, type: 3}
+      StartProgressPercentage: 1
+    GrowingTime: 10
     CropIcon: {fileID: 0}
     Price: 0

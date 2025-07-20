@@ -9,10 +9,18 @@ namespace _RoyalFarm.Scripts.Crop.Data
     {
         public string Name;
         public CropType Type;
-        public GameObject ModelPrefab;
+        
+        public ModelLevel[] Models;
         public float GrowingTime;
         
         public Sprite CropIcon;
         public int Price;
+    }
+    
+    [Serializable]
+    public struct ModelLevel
+    {
+        public GameObject ModelPrefab;
+        public float StartProgressPercentage;
     }
 }

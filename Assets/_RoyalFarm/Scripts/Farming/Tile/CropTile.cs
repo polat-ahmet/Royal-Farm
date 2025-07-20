@@ -66,5 +66,19 @@ namespace _RoyalFarm.Scripts.Crop
             // _crop = cropGameObject.GetComponent<Crop>();
             // if (_crop != null) _crop.Initialize(_cropData);
         }
+
+        internal void UpdateCropProgress(float progress)
+        {
+            if (_crop == null) return;
+            
+            _crop.UpdateProgress(progress);
+        }
+
+        public void StartGrowing()
+        {
+            if (_crop == null) return;
+            
+            _crop.StartGrowing();
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using _RoyalFarm.Scripts.Crop;
 using _RoyalFarm.Scripts.Farming;
+using UnityEngine;
 
 namespace _RoyalFarm.Scripts.Player.States
 {
@@ -40,6 +41,7 @@ namespace _RoyalFarm.Scripts.Player.States
         {
             if (_currentCropField != null || _currentCropField == cropField) return;
             
+            Debug.Log($"OnCropFieldEntered {cropField}");
             _currentCropField = cropField;
             _state.OnCropFieldEntered(cropField);
         }
@@ -48,6 +50,7 @@ namespace _RoyalFarm.Scripts.Player.States
         {
             if (_currentCropField == null || _currentCropField != cropField) return;
             
+            Debug.Log($"OnCropFieldExited {cropField}");
             _currentCropField = null;
             _state.OnCropFieldExited(cropField);
         }

@@ -67,6 +67,7 @@ namespace _RoyalFarm.Scripts.Player.States
         {
             if (newCropFieldState == CropFieldStateType.Seeded)
             {
+                Debug.Log("Crop Field is Seeded changing state to idle");
                 _stateMachine.TransitionToState(PlayerStateType.Idle);
             }
         }
